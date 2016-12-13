@@ -1,4 +1,6 @@
 import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core'
+import {User} from "../interfaces";
+import {UsersService} from "../services/users.service";
 
 @Component({
     moduleId: module.id,
@@ -9,30 +11,12 @@ export class UsersListComponent implements OnInit {
     @Input() public pippo: [number, boolean, string]
     @Output() public init: EventEmitter<string> = new EventEmitter<string>()
     
-    public users = [{
-        name: 'dude',
-        age: 42,
-        isValid: true
-    }, {
-        name: 'gude',
-        age: 32,
-        isValid: true
-    }, {
-        name: 'bude',
-        age: 22,
-        isValid: false
-    }, {
-        name: 'tude',
-        age: 62,
-        isValid: true
-    }, {
-        name: 'rude',
-        age: 82,
-        isValid: false
-    }]
+    public users: User[]
     
-    constructor() {
+    constructor(private usersService: UsersService) {
         console.log(this.pippo)
+        
+        usersService.getUsers().then(users => this.users = users)
     }
     
     ngOnInit(): void {
